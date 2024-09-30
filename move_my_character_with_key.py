@@ -49,6 +49,8 @@ def handle_events():
                 escape_event()
             elif event.key==SDLK_UP:
                 up_event()
+            elif event.key==SDLK_DOWN:
+                down_event()
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 left_event()
@@ -56,6 +58,8 @@ def handle_events():
                 right_event()
             elif event.key==SDLK_UP:
                 down_event()
+            elif event.key==SDLK_DOWN:
+                up_event()
 
 def draw_right():
 
@@ -88,7 +92,7 @@ def draw_down():
     global y
     y += diry * 5
     frame = (frame + 1) % 4
-    character.clip_draw(frame * 160, 4 + 480, 160, 160, x, y, 100, 100)
+    character.clip_draw(frame * 160, 4 + 800, 160, 160, x, y, 100, 100)
 
 
 while running:
