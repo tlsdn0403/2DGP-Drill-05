@@ -66,6 +66,8 @@ def draw_right():
     global frame
     global x
     x += dirx * 5
+    if x>790:
+        x=790
     frame = (frame + 1) % 4
     character.clip_draw(frame * 160, 4 + 640, 160, 160, x, y, 100, 100)
 
@@ -74,6 +76,8 @@ def draw_left():
     global frame
     global x
     x += dirx * 5
+    if x<10:
+        x=10
     frame = (frame + 1) % 4
     character.clip_draw(frame * 160, 4 + 320, 160, 160, x, y, 100, 100)
 def draw_idle():
@@ -85,12 +89,16 @@ def draw_up():
     global frame
     global y
     y += diry * 5
+    if y>590:
+        y=590
     frame = (frame + 1) % 4
     character.clip_draw(frame * 160, 4 + 480, 160, 160, x, y, 100, 100)
 def draw_down():
     global frame
     global y
     y += diry * 5
+    if y<10:
+        y=10
     frame = (frame + 1) % 4
     character.clip_draw(frame * 160, 4 + 800, 160, 160, x, y, 100, 100)
 
