@@ -3,21 +3,25 @@ from pico2d import *
 open_canvas()
 
 ground = load_image('TUK_GROUND.png')
-character = load_image('movingCat.jpg')
+character = load_image('movingCat.png')
 running=True
 
 x=800//2
 frame=0
-dir=0
+dirx=0
+diry=0
 def right_event():
-    global dir
-    dir+=1
+    global dirx
+    dirx+=1
     draw_right()
 def left_event():
-    global dir
-    dir -= 1
+    global dirx
+    dirx -= 1
     draw_left()
 def up_event():
+    global diry
+    diry+=1
+    draw_up()
     pass
 def down_event():
     pass
@@ -28,7 +32,7 @@ def escape_event():
     running=False
 
 def handle_events():
-    global dir
+    global dirx
     events = get_events()
     for event in events:
         if event.type == SDL_QUIT:
@@ -47,31 +51,43 @@ def handle_events():
                 right_event()
 
 def draw_right():
-    clear_canvas()
-    ground.draw(400, 300, 800, 600)
+
     global frame
     global x
-    x += dir * 5
+    x += dirx * 5
     character.clip_draw(frame * 160, 4 + 640, 160, 160, x, 10, 100, 100)
 
 def draw_left():
-    clear_canvas()
-    ground.draw(400, 300, 800, 600)
-    update_canvas()
+
     global frame
     global x
-    x += dir * 5
+    x += dirx * 5
     character.clip_draw(frame * 160, 4 + 320, 160, 160, x, 10, 100, 100)
-
+def draw_idle():
+    global frame
+    global x
+    frame = (frame + 1) % 4
+    character.clip_draw(frame * 160, 4 , 160, 160, x, 10, 100, 100)
+def draw_up():
+    pass
+def draw_down():
+    pass
 
 
 while running:
     clear_canvas()
-    ground.draw(400,300,800,600)
+    ground.draw(400, 300, 800, 600)
+
+    # 방향에 따라 다른 그리기 함수를 호출
+    if dirx > 0:
+        draw_right()
+    elif dirx < 0:
+        draw_left()
+    else:
+        draw_idle()
+
     update_canvas()
     handle_events()
-    frame = (dir + 1) % 8
-    x+=dir*5
     delay(0.05)
 
 close_canvas()
