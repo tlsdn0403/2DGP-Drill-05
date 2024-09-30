@@ -5,7 +5,7 @@ open_canvas()
 ground = load_image('TUK_GROUND.png')
 character = load_image('movingCat.png')
 running=True
-
+y=600//2
 x=800//2
 frame=0
 dirx=0
@@ -24,6 +24,9 @@ def up_event():
     draw_up()
     pass
 def down_event():
+    global diry
+    diry-=1
+    draw_down()
     pass
 def idle_event():
     pass
@@ -44,34 +47,48 @@ def handle_events():
                 left_event()
             elif event.key == SDLK_ESCAPE:
                 escape_event()
+            elif event.key==SDLK_UP:
+                up_event()
         elif event.type == SDL_KEYUP:
             if event.key == SDLK_RIGHT:
                 left_event()
             elif event.key == SDLK_LEFT:
                 right_event()
+            elif event.key==SDLK_UP:
+                down_event()
 
 def draw_right():
 
     global frame
     global x
     x += dirx * 5
-    character.clip_draw(frame * 160, 4 + 640, 160, 160, x, 10, 100, 100)
+    frame = (frame + 1) % 4
+    character.clip_draw(frame * 160, 4 + 640, 160, 160, x, y, 100, 100)
 
 def draw_left():
 
     global frame
     global x
     x += dirx * 5
-    character.clip_draw(frame * 160, 4 + 320, 160, 160, x, 10, 100, 100)
+    frame = (frame + 1) % 4
+    character.clip_draw(frame * 160, 4 + 320, 160, 160, x, y, 100, 100)
 def draw_idle():
     global frame
     global x
     frame = (frame + 1) % 4
-    character.clip_draw(frame * 160, 4 , 160, 160, x, 10, 100, 100)
+    character.clip_draw(frame * 160, 4 , 160, 160, x, y, 100, 100)
 def draw_up():
-    pass
+    global frame
+    global y
+    y += diry * 5
+    frame = (frame + 1) % 4
+    character.clip_draw(frame * 160, 4 + 480, 160, 160, x, y, 100, 100)
 def draw_down():
-    pass
+    global frame
+    global y
+    y += diry * 5
+    frame = (frame + 1) % 4
+    character.clip_draw(frame * 160, 4 + 480, 160, 160, x, y, 100, 100)
 
 
 while running:
@@ -83,6 +100,10 @@ while running:
         draw_right()
     elif dirx < 0:
         draw_left()
+    elif diry>0:
+        draw_up()
+    elif diry<0:
+        draw_down()
     else:
         draw_idle()
 
